@@ -1,0 +1,29 @@
+---
+const navLinks = [
+  { label: "Inicio", href: "/" },
+  { label: "Proyectos", href: "/proyectos" },
+];
+const currentPath = Astro.url.pathname;
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 border-b border-white/10">
+  <nav class="max-w-5xl mx-auto px-8 py-5 flex items-center justify-between">
+    <span class="font-serif text-lg text-white tracking-wide">
+      Hector Olivares
+    </span>
+    <ul class="flex gap-8 list-none m-0 p-0">
+      {navLinks.map((link) => (
+        <li>
+            <a href={link.href}
+            class={`text-sm transition-colors duration-200 no-underline pb-0.5
+              ${currentPath === link.href
+                ? "text-white border-b border-white"
+                : "text-white/60 hover:text-white"
+              }`}>
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</header>
