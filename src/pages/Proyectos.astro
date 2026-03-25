@@ -1,0 +1,204 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const soloProjects = [
+  {
+    name: "Emprender Sin limites",
+    descEs: "Proyecto de titulo de universidad donde desarrollamos una plataforma web para conectar emprendedores con mentores y recursos. Utilizando PHP para las conexiones con la base de datos MySql y HTML para la interfaz",
+    descEn: "University thesis project where I developed a web platform to connect entrepreneurs with mentors and resources. Using PHP for connections with MySql database and HTML for the interface.",
+    techs: ["PHP", "HTML", "MySQL"],
+    github: "https://github.com/holivares03/Emprender-sin-limites",
+    image: "/projects/alpha.png",
+  },
+  {
+    name: "TDM Webpage",
+    descEs: "Página web para el torneo invitacional TDM, con información de jugadores gracias a la información traida por la API de osu!, menú con los juegos a jugar, Tabla de grupos de posiciones y horarios de los partidos",
+    descEn: "Webpage for the TDM invitational tournament, with information about players thanks to the information brought by the osu! API, menu with the games to play, group standings table and match schedules.",
+    techs: ["Astro", "Firebase", "Tailwind"],
+    github: "https://github.com/holivares03/TDM-webpage",
+    image: "/projects/beta.png",
+  },
+]
+
+const collabProjects = [
+  {
+    name: "Proyecto Gamma",
+    descEs: "Plataforma colaborativa para equipos de diseño y desarrollo.",
+    descEn: "Collaborative platform for design and development teams.",
+    techs: ["React", "Firebase", "Tailwind"],
+    github: "https://github.com/tu-usuario/proyecto-gamma",
+    image: "/projects/gamma.png",
+    collaborators: ["Ana García", "Luis Pérez"],
+  },
+]
+---
+
+<Layout>
+  <section class="min-h-screen flex flex-col items-center px-6 pt-6 pb-12 opacity-0" id="projects-section">
+
+    <!-- Tabs -->
+    <div class="flex gap-2 mb-12 border border-white/10 rounded-2xl p-1">
+      <button
+        id="tab-solo"
+        data-i18n="solo"
+        onclick="switchTab('solo')"
+        class="tab-btn active-tab px-6 py-2 rounded-xl text-sm transition-all duration-200">
+        Individuales
+      </button>
+      <button
+        id="tab-collab"
+        data-i18n="collab"
+        onclick="switchTab('collab')"
+        class="tab-btn px-6 py-2 rounded-xl text-sm transition-all duration-200 text-white/50 hover:text-white">
+        En conjunto
+      </button>
+    </div>
+
+    <!-- Lista solo -->
+    <div id="list-solo" class="w-full max-w-4xl flex flex-col gap-6">
+      {soloProjects.map((p) => (
+        <div class="project-card flex gap-5 border border-white/10 rounded-2xl p-5 hover:border-white/25 transition-all duration-200 bg-white/5 backdrop-blur-sm">
+          <!-- Imagen -->
+          <div class="w-28 h-28 rounded-xl overflow-hidden shrink-0 bg-white/5 border border-white/10">
+            {p.image
+              ? <img src={p.image} alt={p.name} class="w-full h-full object-cover" />
+              : <div class="w-full h-full flex items-center justify-center text-white/20 text-xs">sin imagen</div>
+            }
+          </div>
+
+          <!-- Info -->
+          <div class="flex flex-col justify-between flex-1 min-w-0">
+            <div>
+              <h2 class="text-white text-base font-medium mb-1">{p.name}</h2>
+              <p class="text-white/55 text-sm leading-relaxed" data-desc-es={p.descEs} data-desc-en={p.descEn}>
+                {p.descEs}
+              </p>
+            </div>
+
+            <div class="flex items-center justify-between mt-3 flex-wrap gap-2">
+              <!-- Tecnologías -->
+              <div class="flex gap-1.5 flex-wrap">
+                {p.techs.map(t => (
+                  <span class="text-xs px-2 py-0.5 rounded-lg border border-white/15 text-white/50">
+                    {t}
+                  </span>
+                ))}
+              </div>
+
+              <!-- GitHub -->
+              <a href={p.github} target="_blank"
+                class="flex items-center gap-1.5 text-xs text-white/50 hover:text-white border border-white/15 hover:border-white/40 rounded-lg px-3 py-1.5 transition-all duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+                </svg>
+                <span data-i18n="viewGithub">Ver en GitHub</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Lista collab -->
+    <div id="list-collab" class="w-full max-w-4xl flex-col gap-6 hidden">
+      {collabProjects.map((p) => (
+        <div class="project-card flex gap-5 border border-white/10 rounded-2xl p-5 hover:border-white/25 transition-all duration-200 bg-white/5 backdrop-blur-sm">
+          <div class="w-28 h-28 rounded-xl overflow-hidden shrink-0 bg-white/5 border border-white/10">
+            {p.image
+              ? <img src={p.image} alt={p.name} class="w-full h-full object-cover" />
+              : <div class="w-full h-full flex items-center justify-center text-white/20 text-xs">sin imagen</div>
+            }
+          </div>
+
+          <div class="flex flex-col justify-between flex-1 min-w-0">
+            <div>
+              <h2 class="text-white text-base font-medium mb-1">{p.name}</h2>
+              <p class="text-white/55 text-sm leading-relaxed" data-desc-es={p.descEs} data-desc-en={p.descEn}>
+                {p.descEs}
+              </p>
+              <!-- Colaboradores -->
+              <div class="flex gap-1.5 mt-2 flex-wrap">
+                {p.collaborators.map(c => (
+                  <span class="text-xs px-2 py-0.5 rounded-lg bg-white/5 border border-white/10 text-white/40">
+                    👤 {c}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between mt-3 flex-wrap gap-2">
+              <div class="flex gap-1.5 flex-wrap">
+                {p.techs.map(t => (
+                  <span class="text-xs px-2 py-0.5 rounded-lg border border-white/15 text-white/50">
+                    {t}
+                  </span>
+                ))}
+              </div>
+              <a href={p.github} target="_blank"
+                class="flex items-center gap-1.5 text-xs text-white/50 hover:text-white border border-white/15 hover:border-white/40 rounded-lg px-3 py-1.5 transition-all duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+                </svg>
+                <span data-i18n="viewGithub">Ver en GitHub</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </section>
+</Layout>
+
+<style>
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  #projects-section {
+    animation: fadeIn 0.9s ease forwards;
+    animation-delay: 0.2s;
+  }
+  .active-tab {
+    background: rgba(255,255,255,0.1);
+    color: white;
+  }
+</style>
+
+<script>
+  function switchTab(tab: string) {
+    const solo = document.getElementById('list-solo')!
+    const collab = document.getElementById('list-collab')!
+    const btnSolo = document.getElementById('tab-solo')!
+    const btnCollab = document.getElementById('tab-collab')!
+
+    if (tab === 'solo') {
+      solo.classList.remove('hidden')
+      solo.classList.add('flex')
+      collab.classList.add('hidden')
+      collab.classList.remove('flex')
+      btnSolo.classList.add('active-tab')
+      btnCollab.classList.remove('active-tab')
+      btnCollab.classList.add('text-white/50')
+    } else {
+      collab.classList.remove('hidden')
+      collab.classList.add('flex')
+      solo.classList.add('hidden')
+      solo.classList.remove('flex')
+      btnCollab.classList.add('active-tab')
+      btnSolo.classList.remove('active-tab')
+      btnSolo.classList.add('text-white/50')
+    }
+  }
+
+  // Exponer globalmente para el onclick
+  (window as any).switchTab = switchTab
+
+  // Aplicar descripciones según idioma guardado
+  document.addEventListener('DOMContentLoaded', () => {
+    const lang = localStorage.getItem('lang') || 'es'
+    document.querySelectorAll<HTMLElement>('[data-desc-es]').forEach(el => {
+      el.textContent = lang === 'es' ? el.dataset.descEs! : el.dataset.descEn!
+    })
+  })
+</script>

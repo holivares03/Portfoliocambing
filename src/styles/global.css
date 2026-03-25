@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+body {
+  font-family: 'Lato', sans-serif;
+}
+
+html, body {
+  overflow: hidden;
+  height: 100%;
+}
