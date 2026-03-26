@@ -4,31 +4,32 @@ import Layout from '../layouts/Layout.astro';
 const soloProjects = [
   {
     name: "Emprender Sin limites",
-    descEs: "Proyecto de titulo de universidad donde desarrollamos una plataforma web para conectar emprendedores con mentores y recursos. Utilizando PHP para las conexiones con la base de datos MySql y HTML para la interfaz",
-    descEn: "University thesis project where I developed a web platform to connect entrepreneurs with mentors and resources. Using PHP for connections with MySql database and HTML for the interface.",
+    descEs: "Plataforma web desarrollada como proyecto de título universitario enfocada en conectar emprendedores con inversionistas dentro de un entorno colaborativo. El sistema permite la creación de cuentas, publicación de proyectos personales, comunitarios y empresariales, además de un sistema de inversiones y donaciones con recompensas definidas por los emprendedores. Incluye moderación basada en niveles de cuenta para gestionar el contenido dentro de la plataforma. El desarrollo fue implementado utilizando PHP para la lógica backend, MySQL para la gestión de base de datos y HTML para la estructura de la interfaz web.",
+    descEn: "Web platform developed as a university capstone project focused on connecting entrepreneurs with investors within a collaborative environment. The system allows account creation, publication of personal, community, and business projects, and includes an investment and donation system with entrepreneur-defined rewards. It also implements an account-level moderation system to manage platform content. The project was built using PHP for backend logic, MySQL for database management, and HTML for the web interface structure.",
     techs: ["PHP", "HTML", "MySQL"],
     github: "https://github.com/holivares03/Emprender-sin-limites",
     image: "/projects/alpha.png",
   },
   {
     name: "TDM Webpage",
-    descEs: "Página web para el torneo invitacional TDM, con información de jugadores gracias a la información traida por la API de osu!, menú con los juegos a jugar, Tabla de grupos de posiciones y horarios de los partidos",
-    descEn: "Webpage for the TDM invitational tournament, with information about players thanks to the information brought by the osu! API, menu with the games to play, group standings table and match schedules.",
+    url: "https://holivares03.github.io/TDM-webpage/",
+    descEs: "Sitio web desarrollado para el torneo invitacional TDM orientado a centralizar la información del evento y visualizar datos competitivos. La plataforma integra la API de osu! para obtener información y estadísticas de jugadores, además de un sistema personalizado de fase de grupos y llaves de eliminación del torneo. También incluye secciones dedicadas al mappool, programación de partidas, información del staff y enlaces al foro oficial de osu! y redes sociales del torneo.",
+    descEn: "Website developed for the TDM invitational tournament designed to centralize event information and visualize competitive data. The platform integrates the osu! API to retrieve player information and statistics, as well as a custom system for group stages and elimination brackets of the tournament. It also includes sections dedicated to the mappool, match scheduling, staff information, and links to the official osu! forum and tournament social media.",
     techs: ["Astro", "Firebase", "Tailwind"],
     github: "https://github.com/holivares03/TDM-webpage",
-    image: "/projects/beta.png",
+    image: "/projects/tdmlogo.webp",
   },
 ]
 
 const collabProjects = [
   {
-    name: "Proyecto Gamma",
-    descEs: "Plataforma colaborativa para equipos de diseño y desarrollo.",
-    descEn: "Collaborative platform for design and development teams.",
-    techs: ["React", "Firebase", "Tailwind"],
+    name: "Psicología con bel",
+    descEs: "Plataforma web desarrollada para la psicóloga Isabel Aguilar orientada a optimizar la gestión de reservas de citas mediante un sistema de agendamiento en línea. La aplicación permite a los pacientes consultar servicios y reservar horas a través de una interfaz responsive optimizada para dispositivos móviles y escritorio. El frontend fue desarrollado con React, Vite y Tailwind CSS para una interfaz moderna y eficiente. El backend fue implementado utilizando Node.js y Express, con PostgreSQL como base de datos y Prisma ORM para la gestión estructurada de la información.",
+    descEn: "Web platform developed for psychologist Isabel Aguilar focused on optimizing appointment scheduling through an online booking system. The application allows patients to view services and schedule appointments through a responsive interface optimized for both mobile and desktop devices. The frontend was built using React, Vite, and Tailwind CSS for a modern and efficient interface. The backend was implemented with Node.js and Express, using PostgreSQL as the database and Prisma ORM for structured data management.",
+    techs: ["React", "Vite", "Tailwind", "Node.js", "Express", "PostgreSQL", "Prisma"],
     github: "https://github.com/tu-usuario/proyecto-gamma",
-    image: "/projects/gamma.png",
-    collaborators: ["Ana García", "Luis Pérez"],
+    image: "/projects/psicologialogo.png",
+    collaborators: ["Tomás González", "Bastián Colignon"],
   },
 ]
 ---
@@ -43,14 +44,14 @@ const collabProjects = [
         data-i18n="solo"
         onclick="switchTab('solo')"
         class="tab-btn active-tab px-6 py-2 rounded-xl text-sm transition-all duration-200">
-        Individuales
+        Personales
       </button>
       <button
         id="tab-collab"
         data-i18n="collab"
         onclick="switchTab('collab')"
         class="tab-btn px-6 py-2 rounded-xl text-sm transition-all duration-200 text-white/50 hover:text-white">
-        En conjunto
+        Colaborativos
       </button>
     </div>
 
@@ -69,7 +70,14 @@ const collabProjects = [
           <!-- Info -->
           <div class="flex flex-col justify-between flex-1 min-w-0">
             <div>
-              <h2 class="text-white text-base font-medium mb-1">{p.name}</h2>
+              <h2 class="text-white text-base font-medium mb-1">
+                {p.url
+                ? <a href={p.url} target="_blank" class="hover:underline underline-offset-4 decoration-white/30 transition-all duration-200">
+                  {p.name}
+                  </a>
+                : p.name
+                }
+              </h2>
               <p class="text-white/55 text-sm leading-relaxed" data-desc-es={p.descEs} data-desc-en={p.descEn}>
                 {p.descEs}
               </p>
@@ -166,6 +174,14 @@ const collabProjects = [
 </style>
 
 <script>
+  function triggerPageAnimation() {
+    const section = document.getElementById('projects-section')!
+    section.style.animation = 'none'
+    section.style.opacity = '0'
+    void section.offsetHeight
+    section.style.animation = ''
+  }
+
   function switchTab(tab: string) {
     const solo = document.getElementById('list-solo')!
     const collab = document.getElementById('list-collab')!
@@ -191,14 +207,23 @@ const collabProjects = [
     }
   }
 
-  // Exponer globalmente para el onclick
   (window as any).switchTab = switchTab
 
-  // Aplicar descripciones según idioma guardado
   document.addEventListener('DOMContentLoaded', () => {
     const lang = localStorage.getItem('lang') || 'es'
     document.querySelectorAll<HTMLElement>('[data-desc-es]').forEach(el => {
       el.textContent = lang === 'es' ? el.dataset.descEs! : el.dataset.descEn!
+    })
+
+    // Escucha cambios de idioma desde el botón del navbar
+    document.getElementById('lang-toggle')?.addEventListener('click', () => {
+      setTimeout(() => {
+        const newLang = localStorage.getItem('lang') || 'es'
+        document.querySelectorAll<HTMLElement>('[data-desc-es]').forEach(el => {
+          el.textContent = newLang === 'es' ? el.dataset.descEs! : el.dataset.descEn!
+        })
+        triggerPageAnimation()
+      }, 10)
     })
   })
 </script>
